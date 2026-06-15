@@ -1,0 +1,115 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Brand Colors */
+  --brand: #5b75fe;
+  --brand-light: #eef0ff;
+  --brand-hover: #4560f0;
+
+  /* Status Colors */
+  --red: #dc2626;
+  --red-light: #fef2f2;
+  --red-border: #fecaca;
+
+  --amber: #d97706;
+  --amber-light: #fffbeb;
+  --amber-border: #fde68a;
+
+  --green: #16a34a;
+  --green-light: #f0fdf4;
+  --green-border: #bbf7d0;
+
+  /* Gray Scale */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-900: #111827;
+
+  /* Radius */
+  --radius: 10px;
+  --radius-lg: 14px;
+
+  /* Shadcn tokens */
+  --background: var(--gray-50);
+  --foreground: var(--gray-900);
+  --card: #ffffff;
+  --card-foreground: var(--gray-900);
+  --popover: #ffffff;
+  --popover-foreground: var(--gray-900);
+  --primary: var(--brand);
+  --primary-foreground: #ffffff;
+  --secondary: var(--gray-100);
+  --secondary-foreground: var(--gray-700);
+  --muted: var(--gray-100);
+  --muted-foreground: var(--gray-500);
+  --accent: var(--brand-light);
+  --accent-foreground: var(--brand);
+  --destructive: var(--red);
+  --destructive-foreground: #ffffff;
+  --border: var(--gray-200);
+  --input: var(--gray-200);
+  --ring: var(--brand);
+}
+
+@theme inline {
+  --font-sans: var(--font-geist), "Geist", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-instrument-serif), "Instrument Serif", ui-serif,
+    Georgia, serif;
+  --font-mono: "Geist Mono", ui-monospace, monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-brand: var(--brand);
+  --color-brand-light: var(--brand-light);
+  --color-brand-hover: var(--brand-hover);
+  --color-gray-50: var(--gray-50);
+  --color-gray-100: var(--gray-100);
+  --color-gray-200: var(--gray-200);
+  --color-gray-300: var(--gray-300);
+  --color-gray-400: var(--gray-400);
+  --color-gray-500: var(--gray-500);
+  --color-gray-600: var(--gray-600);
+  --color-gray-700: var(--gray-700);
+  --color-gray-900: var(--gray-900);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius-lg);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
