@@ -46,7 +46,7 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
         onClick={onStart}
         className="inline-flex items-center gap-2 bg-brand text-white border-none rounded-lg px-8 py-3.5 text-[15px] font-medium cursor-pointer transition-all hover:bg-brand-hover hover:-translate-y-0.5"
       >
-        Start the Quiz
+        Start Assessment
         <ArrowRight className="w-4 h-4" />
       </button>
 

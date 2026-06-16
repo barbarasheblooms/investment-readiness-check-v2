@@ -6,7 +6,8 @@
 :root {
   /* Brand Colors */
   --brand: #5b75fe;
-  --brand-light: #eef0ff;
+  --brand-mid: #d8d9e5;
+  --brand-light: #f1f1f6;
   --brand-hover: #4560f0;
 
   /* Status Colors */
@@ -84,6 +85,7 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-brand: var(--brand);
+  --color-brand-mid: var(--brand-mid);
   --color-brand-light: var(--brand-light);
   --color-brand-hover: var(--brand-hover);
   --color-gray-50: var(--gray-50);

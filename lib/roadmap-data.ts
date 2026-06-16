@@ -202,7 +202,7 @@ export const ROADMAP_DATA: Record<string, RoadmapCombo> = {
     diagnosisTitle: "You're ready to raise. Let's make sure you close.",
     diagnosisBody:
       "At seed, traction is what separates fundable startups from interesting ideas. Investors want active users, month-over-month growth, and early signs that the business model works.",
-    gapLabel: "Area to strengthen: traction",
+    gapLabel: "Area of Improvement: traction",
     gapIcon: "chart-bar",
     focusTitle: "Prove traction and early business model",
     steps: [
@@ -229,7 +229,7 @@ export const ROADMAP_DATA: Record<string, RoadmapCombo> = {
     diagnosisTitle: "You're ready to raise. Let's make sure you close.",
     diagnosisBody:
       "At seed, investors evaluate how the team has evolved since launch, whether you've made key hires, and if the structure is ready for what comes next. Strengthening this area before going out will directly affect your valuation.",
-    gapLabel: "Area to strengthen: team",
+    gapLabel: "Area of Improvement: team",
     gapIcon: "users",
     focusTitle: "Build a team that proves execution capacity",
     steps: [
@@ -256,7 +256,7 @@ export const ROADMAP_DATA: Record<string, RoadmapCombo> = {
     diagnosisTitle: "You're ready to raise. Let's make sure you close.",
     diagnosisBody:
       "At seed, investors want detailed financials, clear allocation plans, and honest risk assessment. Founders who walk in without this preparation lose deals to founders who have it.",
-    gapLabel: "Area to strengthen: readiness",
+    gapLabel: "Area of Improvement: readiness",
     gapIcon: "file-text",
     focusTitle: "Prepare your financials and risk narrative",
     steps: [
@@ -283,7 +283,7 @@ export const ROADMAP_DATA: Record<string, RoadmapCombo> = {
     diagnosisTitle: "You're in a strong position for Series A. Let's close it together.",
     diagnosisBody:
       "At Series A, investors are evaluating real data. The central question is: does this model scale predictably? Your traction data needs to tell that story without gaps.",
-    gapLabel: "Area to strengthen: traction",
+    gapLabel: "Area of Improvement: traction",
     gapIcon: "chart-bar",
     focusTitle: "Prove scalable, predictable growth",
     steps: [
@@ -310,7 +310,7 @@ export const ROADMAP_DATA: Record<string, RoadmapCombo> = {
     diagnosisTitle: "You're in a strong position for Series A. Let's close it together.",
     diagnosisBody:
       "At Series A, the question shifts from 'are these good founders' to 'can these people run a larger operation'. Investors want functional leadership in place, not everything dependent on founders.",
-    gapLabel: "Area to strengthen: team",
+    gapLabel: "Area of Improvement: team",
     gapIcon: "users",
     focusTitle: "Build the leadership layer for scale",
     steps: [
@@ -337,7 +337,7 @@ export const ROADMAP_DATA: Record<string, RoadmapCombo> = {
     diagnosisTitle: "You're in a strong position for Series A. Let's close it together.",
     diagnosisBody:
       "Financial projections need to be detailed and defensible, and the process needs to be efficient. This is where having a partner who knows the mechanics saves you weeks and protects your valuation.",
-    gapLabel: "Area to strengthen: readiness",
+    gapLabel: "Area of Improvement: readiness",
     gapIcon: "file-text",
     focusTitle: "Optimise for a fast Series A close",
     steps: [
