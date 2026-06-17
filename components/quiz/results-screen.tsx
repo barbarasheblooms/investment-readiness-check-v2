@@ -206,7 +206,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
             <>
               {isGrow && (
                 <div className="flex justify-center mb-3">
-                  <span className="inline-block text-[11px] font-semibold tracking-wider px-3 py-1 rounded-full bg-brand-light text-brand">You're Grow ready</span>
+                  <span className="inline-block text-[11px] font-semibold tracking-wider px-3 py-1 rounded-full bg-brand-light text-brand">YOU'RE READY TO GROW</span>
                 </div>
               )}
               <div className="text-[17px] font-semibold text-gray-900 mb-2 leading-snug max-w-[380px] mx-auto">
