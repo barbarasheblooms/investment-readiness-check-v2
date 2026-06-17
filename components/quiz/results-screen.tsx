@@ -30,18 +30,7 @@ function SvgIcon({ name, size = 14, className = "" }: { name: string; size?: num
   const path = DIM_ICONS[name]
   if (!path) return null
   return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      style={{ flexShrink: 0 }}
-    >
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} style={{ flexShrink: 0 }}>
       <path d={path} />
     </svg>
   )
@@ -56,11 +45,8 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
   const isRaise = roadmap.plan === "raise"
   const isGrow = roadmap.plan === "grow"
 
-  // All tied weakest dimensions
   const minScore = Math.min(breakdown.traction, breakdown.team, breakdown.prep)
-  const weakestDims = (["traction", "team", "prep"] as const).filter(
-    (k) => breakdown[k] === minScore
-  )
+  const weakestDims = (["traction", "team", "prep"] as const).filter((k) => breakdown[k] === minScore)
 
   const handleCTA = () => {
     const urls: Record<string, string> = {
@@ -98,56 +84,27 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
     <div>
       {/* Hero Card */}
       <div className="bg-white border border-gray-200 rounded-xl p-8 pt-10 shadow-sm text-center mb-4">
-        <div className="text-[11px] font-medium tracking-widest uppercase text-gray-400 mb-2">
-          Your Readiness Score
-        </div>
-
-        <div
-          className="font-serif text-[clamp(96px,20vw,128px)] font-normal leading-none tracking-tighter mb-1"
-          style={{ color: stage.scoreColor }}
-        >
-          {total}
-        </div>
-
+        <div className="text-[11px] font-medium tracking-widest uppercase text-gray-400 mb-2">Your Readiness Score</div>
+        <div className="font-serif text-[clamp(96px,20vw,128px)] font-normal leading-none tracking-tighter mb-1" style={{ color: stage.scoreColor }}>{total}</div>
         <div className="text-sm text-gray-400 mb-5">out of 100</div>
-
-        <span
-          className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-[15px] font-medium mb-1"
-          style={{ backgroundColor: stage.badgeBg, color: stage.badgeColor }}
-        >
-          {stage.label}
-        </span>
-
+        <span className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-[15px] font-medium mb-1" style={{ backgroundColor: stage.badgeBg, color: stage.badgeColor }}>{stage.label}</span>
         <div className="text-sm text-gray-400 mb-4">{stage.sub}</div>
-
-        {/* Radar Chart — reduced bottom margin */}
         <div className="flex justify-center mb-0">
           <RadarChart breakdown={breakdown} color={stage.scoreColor} />
         </div>
-
-        {/* Dimension Cards — reduced top margin */}
         <div className="grid grid-cols-3 gap-2 mt-1">
           {dimEntries.map((dim) => {
             const isWeak = dim.score === minScore
             const barColor = getScoreColor(dim.score)
             return (
               <div key={dim.key} className="bg-gray-50 border border-gray-200 rounded-xl p-3">
-                <div className="text-xl font-medium mb-1">
-                  {dim.score}
-                </div>
-                <div className="text-[10px] font-medium tracking-wider uppercase text-gray-400 mb-2">
-                  {dim.label}
-                </div>
+                <div className="text-xl font-medium mb-1">{dim.score}</div>
+                <div className="text-[10px] font-medium tracking-wider uppercase text-gray-400 mb-2">{dim.label}</div>
                 <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full rounded-full transition-all duration-500"
-                    style={{ width: `${dim.score}%`, backgroundColor: barColor }}
-                  />
+                  <div className="h-full rounded-full transition-all duration-500" style={{ width: `${dim.score}%`, backgroundColor: barColor }} />
                 </div>
                 {isWeak && (
-                  <span className="inline-block mt-1.5 text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-brand-light text-brand">
-                    Needs focus
-                  </span>
+                  <span className="inline-block mt-1.5 text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-brand-light text-brand">Needs focus</span>
                 )}
               </div>
             )
@@ -155,38 +112,30 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
         </div>
       </div>
 
-      {/* Diagnosis Box — rounded corners */}
+      {/* Diagnosis Box */}
       <div className={`border-l-[3px] rounded-xl p-5 mb-4 ${diagnosisStyles[stage.diagnosisClass]}`}>
-        <div className={`font-medium text-[15px] mb-1.5 ${diagnosisTitleStyles[stage.diagnosisClass]}`}>
-          {roadmap.diagnosisTitle}
-        </div>
-        <div className={`text-sm leading-relaxed ${diagnosisTextStyles[stage.diagnosisClass]}`}>
-          {roadmap.diagnosisBody}
-        </div>
+        <div className={`font-medium text-[15px] mb-1.5 ${diagnosisTitleStyles[stage.diagnosisClass]}`}>{roadmap.diagnosisTitle}</div>
+        <div className={`text-sm leading-relaxed ${diagnosisTextStyles[stage.diagnosisClass]}`}>{roadmap.diagnosisBody}</div>
       </div>
 
       {/* Roadmap Card */}
       <div className="bg-white border-[1.5px] border-brand rounded-xl p-6 mb-4 shadow-sm">
 
+        {/* Program badge */}
         {isRaise && (
           <div className="mb-4">
-            <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-brand-light text-brand">
-              Program Raise
-            </span>
+            <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-brand-light text-brand">Program Raise</span>
           </div>
         )}
-
         {isGrow && (
           <div className="mb-4">
-            <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-brand-light text-brand">
-              Program Grow
-            </span>
+            <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-brand-light text-brand">Program Grow</span>
           </div>
         )}
 
         {/* Biggest Gap header */}
         <div className="mb-5 pb-5 border-b border-gray-100">
-          <div className="flex items-center gap-2 mb-4">
+          <div className="flex items-center gap-2 mb-3">
             <SvgIcon name={roadmap.gapIcon} size={13} className="text-brand" />
             <span className="text-[11px] font-semibold tracking-widest uppercase text-brand">
               {weakestDims.length > 1
@@ -194,19 +143,13 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
                 : roadmap.gapLabel}
             </span>
           </div>
-
-          <div className="text-[11px] font-medium tracking-wider uppercase text-gray-400 mb-1">
-            What to do next:
+          <div className="pl-[21px]">
+            <div className="text-[11px] font-medium tracking-wider uppercase text-gray-400 mb-1">What to do next:</div>
+            <div className="text-[18px] font-semibold text-gray-900 leading-snug">{roadmap.focusTitle}</div>
+            {isRaise && (
+              <div className="text-sm text-gray-500 mt-2">Here's what we'll work on together:</div>
+            )}
           </div>
-          <div className="text-[18px] font-semibold text-gray-900 leading-snug">
-            {roadmap.focusTitle}
-          </div>
-
-          {isRaise && (
-            <div className="text-sm text-gray-500 mt-2">
-              Here's what we'll work on together:
-            </div>
-          )}
         </div>
 
         {/* Main gap dimension label */}
@@ -221,14 +164,10 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           return (
             <div key={stepNumber} className="py-3 border-b border-gray-100 last:border-b-0">
               <div className="flex items-start gap-2.5">
-                <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0 mt-0.5">
-                  {stepNumber}
-                </span>
+                <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0 mt-0.5">{stepNumber}</span>
                 <span className="text-[13px] font-medium text-gray-900">{step.title}</span>
               </div>
-              <p className="ml-[30px] mt-1.5 text-[12px] text-gray-500 leading-relaxed">
-                {step.body}
-              </p>
+              <p className="ml-[30px] mt-1.5 text-[12px] text-gray-500 leading-relaxed">{step.body}</p>
             </div>
           )
         })}
@@ -244,14 +183,10 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
               </div>
               <div className="py-3 border-b border-gray-100 last:border-b-0">
                 <div className="flex items-start gap-2.5">
-                  <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0 mt-0.5">
-                    {stepNumber}
-                  </span>
+                  <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0 mt-0.5">{stepNumber}</span>
                   <span className="text-[13px] font-medium text-gray-900">{dim.action.title}</span>
                 </div>
-                <p className="ml-[30px] mt-1.5 text-[12px] text-gray-500 leading-relaxed">
-                  {dim.action.body}
-                </p>
+                <p className="ml-[30px] mt-1.5 text-[12px] text-gray-500 leading-relaxed">{dim.action.body}</p>
               </div>
             </div>
           )
@@ -261,13 +196,8 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
         <div className="text-center mt-6 pt-6 border-t border-gray-100">
           {isRaise ? (
             <>
-              <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[360px] mx-auto">
-                Book a call to walk through your results together. We'll discuss your specific situation and build a plan to close your round.
-              </p>
-              <button
-                onClick={handleCTA}
-                className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors"
-              >
+              <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[360px] mx-auto">Book a call to walk through your results together. We'll discuss your specific situation and build a plan to close your round.</p>
+              <button onClick={handleCTA} className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors">
                 Book your Raise call
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
@@ -276,22 +206,16 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
             <>
               {isGrow && (
                 <div className="flex justify-center mb-3">
-                  <span className="inline-block text-[11px] font-semibold tracking-wider px-3 py-1 rounded-full bg-brand-light text-brand">
-                    You're Grow ready
-                  </span>
+                  <span className="inline-block text-[11px] font-semibold tracking-wider px-3 py-1 rounded-full bg-brand-light text-brand">You're Grow ready</span>
                 </div>
               )}
               <div className="text-[17px] font-semibold text-gray-900 mb-2 leading-snug max-w-[380px] mx-auto">
-                Start your personalized roadmap today{" "}
-                and become investment-ready faster.
+                Start your personalized roadmap today and become investment-ready faster.
               </div>
               <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[340px] mx-auto">
                 Get the complete roadmap with proven templates, strategic frameworks, and expert guidance to build a business investors&nbsp;can't&nbsp;ignore.
               </p>
-              <button
-                onClick={handleCTA}
-                className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors"
-              >
+              <button onClick={handleCTA} className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors">
                 Start my roadmap
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
@@ -300,11 +224,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
         </div>
       </div>
 
-      {/* Retake */}
-      <button
-        onClick={onRetake}
-        className="block mx-auto mt-4 bg-none border-none text-sm text-gray-400 cursor-pointer underline underline-offset-3 hover:text-gray-600"
-      >
+      <button onClick={onRetake} className="block mx-auto mt-4 bg-none border-none text-sm text-gray-400 cursor-pointer underline underline-offset-3 hover:text-gray-600">
         Retake the quiz
       </button>
     </div>
