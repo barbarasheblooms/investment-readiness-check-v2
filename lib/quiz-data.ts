@@ -195,13 +195,13 @@ export const DIMENSIONS: Record<string, Dimension> = {
   },
   team: {
     label: "Team",
-    color: "#7c3aed",
+    color: "#5b75fe",
     questions: [5, 6, 7, 8],
     weight: 0.3,
   },
   prep: {
     label: "Readiness",
-    color: "#059669",
+    color: "#5b75fe",
     questions: [10, 11, 12, 13],
     weight: 0.3,
   },
