@@ -24,8 +24,8 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-gray-200 py-6 px-8 text-center text-xs text-gray-400">
         © 2026 SheBlooms ·{" "}
-        <a href="https://sheblooms.com" className="text-brand no-underline hover:underline">
-          sheblooms.com
+        <a href="https://shebloomsventure.com" className="text-brand no-underline hover:underline">
+          shebloomsventure.com
         </a>
       </footer>
     </div>
