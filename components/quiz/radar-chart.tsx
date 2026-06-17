@@ -8,9 +8,9 @@ interface RadarChartProps {
 }
 
 function getScoreColor(score: number): string {
-  if (score < 36) return "#dc2626"
-  if (score < 66) return "#d97706"
-  return "#16a34a"
+  if (score < 35) return "#E24B4A"
+  if (score < 80) return "#EF9F27"
+  return "#1D9E75"
 }
 
 export function RadarChart({ breakdown, color }: RadarChartProps) {
