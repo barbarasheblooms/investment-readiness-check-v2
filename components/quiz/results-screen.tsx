@@ -197,7 +197,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           {isRaise ? (
             <>
               <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[360px] mx-auto">Book a call to walk through your results together. We'll discuss your specific situation and build a plan to close your round.</p>
-              <button onClick={handleCTA} className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors">
+              <button onClick={handleCTA} className="w-full justify-center inline-flex items-center gap-2 px-8 py-4 bg-brand text-white text-[17px] font-semibold rounded-xl border-none cursor-pointer hover:bg-brand-hover transition-colors">
                 Book your Raise call
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
@@ -215,7 +215,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
               <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[340px] mx-auto">
                 Get the complete roadmap with proven templates, strategic frameworks, and expert guidance to build a business investors&nbsp;can't&nbsp;ignore.
               </p>
-              <button onClick={handleCTA} className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors">
+              <button onClick={handleCTA} className="w-full justify-center inline-flex items-center gap-2 px-8 py-4 bg-brand text-white text-[17px] font-semibold rounded-xl border-none cursor-pointer hover:bg-brand-hover transition-colors">
                 Start my roadmap
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
