@@ -56,7 +56,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
   const isRaise = roadmap.plan === "raise"
   const isGrow = roadmap.plan === "grow"
 
-  // Fix 1 & 4: find ALL tied weakest dimensions
+  // All tied weakest dimensions
   const minScore = Math.min(breakdown.traction, breakdown.team, breakdown.prep)
   const weakestDims = (["traction", "team", "prep"] as const).filter(
     (k) => breakdown[k] === minScore
@@ -118,20 +118,20 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           {stage.label}
         </span>
 
-        <div className="text-sm text-gray-400 mb-6">{stage.sub}</div>
+        <div className="text-sm text-gray-400 mb-4">{stage.sub}</div>
 
-        {/* Radar Chart */}
+        {/* Radar Chart — reduced bottom margin */}
         <div className="flex justify-center mb-0">
           <RadarChart breakdown={breakdown} color={stage.scoreColor} />
         </div>
 
-        {/* Dimension Cards */}
-        <div className="grid grid-cols-3 gap-2 mt-2">
+        {/* Dimension Cards — reduced top margin */}
+        <div className="grid grid-cols-3 gap-2 mt-1">
           {dimEntries.map((dim) => {
             const isWeak = dim.score === minScore
             const barColor = getScoreColor(dim.score)
             return (
-              <div key={dim.key} className="bg-gray-50 border border-gray-200 rounded-lg p-3">
+              <div key={dim.key} className="bg-gray-50 border border-gray-200 rounded-xl p-3">
                 <div className="text-xl font-medium mb-1">
                   {dim.score}
                 </div>
@@ -155,8 +155,8 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
         </div>
       </div>
 
-      {/* Diagnosis Box */}
-      <div className={`border-l-[3px] p-5 mb-4 ${diagnosisStyles[stage.diagnosisClass]}`}>
+      {/* Diagnosis Box — rounded corners */}
+      <div className={`border-l-[3px] rounded-xl p-5 mb-4 ${diagnosisStyles[stage.diagnosisClass]}`}>
         <div className={`font-medium text-[15px] mb-1.5 ${diagnosisTitleStyles[stage.diagnosisClass]}`}>
           {roadmap.diagnosisTitle}
         </div>
@@ -168,7 +168,6 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
       {/* Roadmap Card */}
       <div className="bg-white border-[1.5px] border-brand rounded-xl p-6 mb-4 shadow-sm">
 
-        {/* Raise badge */}
         {isRaise && (
           <div className="mb-4">
             <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-brand-light text-brand">
@@ -177,10 +176,8 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           </div>
         )}
 
-        {/* ── Biggest Gap header ── */}
+        {/* Biggest Gap header */}
         <div className="mb-5 pb-5 border-b border-gray-100">
-
-          {/* Fix 4: show all tied weakest dimensions in the gap label */}
           <div className="flex items-center gap-2 mb-4">
             <SvgIcon name={roadmap.gapIcon} size={13} className="text-brand" />
             <span className="text-[11px] font-semibold tracking-widest uppercase text-brand">
@@ -190,12 +187,9 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
             </span>
           </div>
 
-          {/* What to do next */}
           <div className="text-[11px] font-medium tracking-wider uppercase text-gray-400 mb-1">
             What to do next:
           </div>
-
-          {/* Focus title */}
           <div className="text-[18px] font-semibold text-gray-900 leading-snug">
             {roadmap.focusTitle}
           </div>
@@ -207,7 +201,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           )}
         </div>
 
-        {/* ── Main gap dimension label ── */}
+        {/* Main gap dimension label */}
         <div className="flex items-center gap-2 mb-3 text-[11px] font-semibold tracking-widest uppercase text-brand">
           <SvgIcon name={roadmap.gapIcon} size={13} className="text-brand" />
           {DIM_LABELS[weakestDim] || weakestDim}
@@ -231,7 +225,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           )
         })}
 
-        {/* ── Secondary dimension actions ── */}
+        {/* Secondary dimension actions */}
         {secondaryActions.map((dim) => {
           stepNumber++
           return (
@@ -255,7 +249,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           )
         })}
 
-        {/* ── CTA ── */}
+        {/* CTA */}
         <div className="text-center mt-6 pt-6 border-t border-gray-100">
           {isRaise ? (
             <>
@@ -272,28 +266,20 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
             </>
           ) : (
             <>
-              {/* Fix 1: "You're Grow ready" tag above title, only for grow plan */}
               {isGrow && (
                 <div className="flex justify-center mb-3">
-                  <span
-                    className="inline-block text-[11px] font-semibold tracking-wider px-3 py-1 rounded-full"
-                    style={{ backgroundColor: "#f1f1f6", color: "#5b75fe" }}
-                  >
+                  <span className="inline-block text-[11px] font-semibold tracking-wider px-3 py-1 rounded-full bg-brand-light text-brand">
                     You're Grow ready
                   </span>
                 </div>
               )}
-
-              {/* Fix 2 & 3: title split so "and become..." is always on line 2, and "ignore." never alone */}
               <div className="text-[17px] font-semibold text-gray-900 mb-2 leading-snug max-w-[380px] mx-auto">
                 Start your personalized roadmap today{" "}
-                <span className="inline">and become investment-ready faster.</span>
+                and become investment-ready faster.
               </div>
-
               <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[340px] mx-auto">
-                Get the complete roadmap with proven templates, strategic frameworks, and expert guidance to build a business investors{"\u00A0"}can't{"\u00A0"}ignore.
+                Get the complete roadmap with proven templates, strategic frameworks, and expert guidance to build a business investors&nbsp;can't&nbsp;ignore.
               </p>
-
               <button
                 onClick={handleCTA}
                 className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors"
@@ -306,7 +292,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
         </div>
       </div>
 
-      {/* Retake Button */}
+      {/* Retake */}
       <button
         onClick={onRetake}
         className="block mx-auto mt-4 bg-none border-none text-sm text-gray-400 cursor-pointer underline underline-offset-3 hover:text-gray-600"

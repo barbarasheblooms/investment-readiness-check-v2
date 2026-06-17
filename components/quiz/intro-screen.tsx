@@ -26,18 +26,17 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
         (Pre-Seed, Seed, or Series A) you are ready for right now.
       </p>
 
+      {/* Pills — no color dots */}
       <div className="flex flex-wrap gap-1.5 mb-9">
         {Object.values(DIMENSIONS).map((dim) => (
           <div
             key={dim.label}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 bg-white text-xs text-gray-500"
+            className="flex items-center px-3 py-1.5 rounded-full border border-gray-200 bg-white text-xs text-gray-500"
           >
-            <div className="w-1.5 h-1.5 rounded-full shrink-0" style={{ backgroundColor: dim.color }} />
             {dim.label}
           </div>
         ))}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-gray-200 bg-white text-xs text-gray-500">
-          <div className="w-1.5 h-1.5 rounded-full shrink-0 bg-gray-300" />
+        <div className="flex items-center px-3 py-1.5 rounded-full border border-gray-200 bg-white text-xs text-gray-500">
           Investment stage diagnosis
         </div>
       </div>
@@ -46,7 +45,7 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
         onClick={onStart}
         className="inline-flex items-center gap-2 bg-brand text-white border-none rounded-lg px-8 py-3.5 text-[15px] font-medium cursor-pointer transition-all hover:bg-brand-hover hover:-translate-y-0.5"
       >
-        Start Assessment
+        Start my assessment
         <ArrowRight className="w-4 h-4" />
       </button>
 
