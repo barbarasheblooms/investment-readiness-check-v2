@@ -20,6 +20,12 @@ const DIM_ICONS: Record<string, string> = {
   "file-text": "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM14 2v6h6M16 13H8m8 4H8m2-8H8",
 }
 
+const DIM_LABELS: Record<string, string> = {
+  traction: "Traction",
+  team: "Team",
+  prep: "Readiness",
+}
+
 function SvgIcon({ name, size = 14, className = "" }: { name: string; size?: number; className?: string }) {
   const path = DIM_ICONS[name]
   if (!path) return null
@@ -111,7 +117,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           <RadarChart breakdown={breakdown} color={stage.scoreColor} />
         </div>
 
-        {/* Dimension Cards with score-based colors */}
+        {/* Dimension Cards */}
         <div className="grid grid-cols-3 gap-2 mt-5">
           {dimEntries.map((dim) => {
             const isWeak = dim.key === weakestDim
@@ -131,7 +137,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
                   />
                 </div>
                 {isWeak && (
-                  <span className="inline-block mt-1.5 text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-red-50 text-red-700">
+                  <span className="inline-block mt-1.5 text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-brand-light text-brand">
                     Needs focus
                   </span>
                 )}
@@ -142,9 +148,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
       </div>
 
       {/* Diagnosis Box */}
-      <div
-        className={`border-l-[3px] p-5 mb-4 ${diagnosisStyles[stage.diagnosisClass]}`}
-      >
+      <div className={`border-l-[3px] p-5 mb-4 ${diagnosisStyles[stage.diagnosisClass]}`}>
         <div className={`font-medium text-[15px] mb-1.5 ${diagnosisTitleStyles[stage.diagnosisClass]}`}>
           {roadmap.diagnosisTitle}
         </div>
@@ -154,23 +158,35 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
       </div>
 
       {/* Roadmap Card */}
-      <div className="bg-white border-[1.5px] border-[#0F6E56] rounded-xl p-5 mb-4 shadow-sm">
+      <div className="bg-white border-[1.5px] border-brand rounded-xl p-5 mb-4 shadow-sm">
+
         {/* Raise badge */}
         {isRaise && (
           <div className="mb-3">
-            <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-[#E1F5EE] text-[#085041]">
+            <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-brand-light text-brand">
               Program Raise
             </span>
           </div>
         )}
 
-        {/* Gap header */}
-        <div className="mb-4 pb-4 border-b border-gray-100">
-          <div className="flex items-center gap-1.5 text-[11px] font-medium tracking-wider uppercase text-gray-400 mb-1">
-            <SvgIcon name={roadmap.gapIcon} size={14} />
-            {roadmap.gapLabel}
+        {/* ── Biggest Gap: header block ── */}
+        <div className="mb-5">
+          {/* Big label */}
+          <div className="flex items-center gap-1.5 mb-1">
+            <SvgIcon name={roadmap.gapIcon} size={13} className="text-brand" />
+            <span className="text-[11px] font-semibold tracking-widest uppercase text-brand">
+              {roadmap.gapLabel}
+            </span>
           </div>
-          <div className="text-[15px] font-medium text-gray-900">{roadmap.focusTitle}</div>
+
+          {/* What to do next */}
+          <div className="text-[11px] font-medium tracking-wider uppercase text-gray-400 mt-3 mb-0.5">
+            What to do next:
+          </div>
+          <div className="text-[17px] font-semibold text-gray-900">
+            {roadmap.focusTitle}
+          </div>
+
           {isRaise && (
             <div className="text-sm text-gray-500 mt-1.5">
               Here's what we'll work on together:
@@ -178,13 +194,18 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           )}
         </div>
 
-        {/* Main gap steps */}
+        {/* ── Main gap dimension label + steps ── */}
+        <div className="flex items-center gap-1.5 mb-2 text-[11px] font-semibold tracking-widest uppercase text-brand">
+          <SvgIcon name={roadmap.gapIcon} size={13} className="text-brand" />
+          {DIM_LABELS[weakestDim] || weakestDim}
+        </div>
+
         {roadmap.steps.map((step) => {
           stepNumber++
           return (
             <div key={stepNumber} className="py-3 border-b border-gray-100 last:border-b-0">
               <div className="flex items-center gap-2">
-                <span className="w-[22px] h-[22px] rounded-full bg-[#E1F5EE] text-[#085041] text-[11px] font-medium flex items-center justify-center flex-shrink-0">
+                <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0">
                   {stepNumber}
                 </span>
                 <span className="text-[13px] font-medium text-gray-900">{step.title}</span>
@@ -196,18 +217,18 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           )
         })}
 
-        {/* Secondary dimension actions */}
+        {/* ── Secondary dimension actions ── */}
         {secondaryActions.map((dim) => {
           stepNumber++
           return (
             <div key={dim.label}>
-              <div className="flex items-center gap-1.5 pt-4 pb-1 text-[11px] font-medium tracking-wider uppercase text-gray-400">
-                <SvgIcon name={dim.icon} size={13} />
+              <div className="flex items-center gap-1.5 pt-5 pb-2 text-[11px] font-semibold tracking-widest uppercase text-brand">
+                <SvgIcon name={dim.icon} size={13} className="text-brand" />
                 {dim.label}
               </div>
               <div className="py-3 border-b border-gray-100 last:border-b-0">
                 <div className="flex items-center gap-2">
-                  <span className="w-[22px] h-[22px] rounded-full bg-[#E1F5EE] text-[#085041] text-[11px] font-medium flex items-center justify-center flex-shrink-0">
+                  <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0">
                     {stepNumber}
                   </span>
                   <span className="text-[13px] font-medium text-gray-900">{dim.action.title}</span>
@@ -220,8 +241,8 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           )
         })}
 
-        {/* CTA */}
-        <div className="text-center mt-5 pt-5 border-t border-gray-100">
+        {/* ── CTA ── */}
+        <div className="text-center mt-6 pt-5 border-t border-gray-100">
           {isRaise ? (
             <>
               <p className="text-[12px] text-gray-500 leading-relaxed mb-3 max-w-[360px] mx-auto">
@@ -229,7 +250,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
               </p>
               <button
                 onClick={handleCTA}
-                className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-[#0F6E56] text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors"
               >
                 Book your Raise call
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -237,22 +258,19 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
             </>
           ) : (
             <>
-              <div className="text-[15px] font-medium text-gray-900 mb-1.5">
-                Get your personalized Investment Readiness Roadmap
+              <div className="text-[17px] font-semibold text-gray-900 mb-2">
+                Start your personalized roadmap today and become investment-ready faster.
               </div>
-              <p className="text-[12px] text-gray-500 leading-relaxed mb-3 max-w-[360px] mx-auto">
+              <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[380px] mx-auto">
                 Get the complete roadmap with proven templates, strategic frameworks, and expert guidance to build a business investors can't ignore.
               </p>
               <button
                 onClick={handleCTA}
-                className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-[#0F6E56] text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors"
               >
                 Start my roadmap
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </button>
-              <p className="text-[11px] text-gray-400 mt-3">
-                Start your personalised roadmap today and become investment-ready faster.
-              </p>
             </>
           )}
         </div>
