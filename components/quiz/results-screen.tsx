@@ -1,7 +1,7 @@
 "use client"
 
 import { RadarChart } from "./radar-chart"
-import { DIMENSIONS, getStage, type ScoreResult } from "@/lib/quiz-data"
+import { getStage, type ScoreResult } from "@/lib/quiz-data"
 import {
   getWeakestDimension,
   getRoadmap,
@@ -40,6 +40,7 @@ function SvgIcon({ name, size = 14, className = "" }: { name: string; size?: num
       strokeLinecap="round"
       strokeLinejoin="round"
       className={className}
+      style={{ flexShrink: 0 }}
     >
       <path d={path} />
     </svg>
@@ -53,6 +54,13 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
   const roadmap = getRoadmap(stage.key, weakestDim)
   const secondaryActions = getSecondaryActions(stage.key, weakestDim)
   const isRaise = roadmap.plan === "raise"
+  const isGrow = roadmap.plan === "grow"
+
+  // Fix 1 & 4: find ALL tied weakest dimensions
+  const minScore = Math.min(breakdown.traction, breakdown.team, breakdown.prep)
+  const weakestDims = (["traction", "team", "prep"] as const).filter(
+    (k) => breakdown[k] === minScore
+  )
 
   const handleCTA = () => {
     const urls: Record<string, string> = {
@@ -79,9 +87,9 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
   }
 
   const dimEntries = [
-    { key: "traction", label: "Traction", score: breakdown.traction },
-    { key: "team", label: "Team", score: breakdown.team },
-    { key: "prep", label: "Readiness", score: breakdown.prep },
+    { key: "traction" as const, label: "Traction", score: breakdown.traction },
+    { key: "team" as const, label: "Team", score: breakdown.team },
+    { key: "prep" as const, label: "Readiness", score: breakdown.prep },
   ]
 
   let stepNumber = 0
@@ -113,18 +121,18 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
         <div className="text-sm text-gray-400 mb-6">{stage.sub}</div>
 
         {/* Radar Chart */}
-        <div className="flex justify-center mb-2">
+        <div className="flex justify-center mb-0">
           <RadarChart breakdown={breakdown} color={stage.scoreColor} />
         </div>
 
         {/* Dimension Cards */}
-        <div className="grid grid-cols-3 gap-2 mt-5">
+        <div className="grid grid-cols-3 gap-2 mt-2">
           {dimEntries.map((dim) => {
-            const isWeak = dim.key === weakestDim
+            const isWeak = dim.score === minScore
             const barColor = getScoreColor(dim.score)
             return (
               <div key={dim.key} className="bg-gray-50 border border-gray-200 rounded-lg p-3">
-                <div className="text-xl font-medium mb-1" style={{ color: "inherit" }}>
+                <div className="text-xl font-medium mb-1">
                   {dim.score}
                 </div>
                 <div className="text-[10px] font-medium tracking-wider uppercase text-gray-400 mb-2">
@@ -158,54 +166,60 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
       </div>
 
       {/* Roadmap Card */}
-      <div className="bg-white border-[1.5px] border-brand rounded-xl p-5 mb-4 shadow-sm">
+      <div className="bg-white border-[1.5px] border-brand rounded-xl p-6 mb-4 shadow-sm">
 
         {/* Raise badge */}
         {isRaise && (
-          <div className="mb-3">
+          <div className="mb-4">
             <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-brand-light text-brand">
               Program Raise
             </span>
           </div>
         )}
 
-        {/* ── Biggest Gap: header block ── */}
-        <div className="mb-5">
-          {/* Big label */}
-          <div className="flex items-center gap-1.5 mb-1">
+        {/* ── Biggest Gap header ── */}
+        <div className="mb-5 pb-5 border-b border-gray-100">
+
+          {/* Fix 4: show all tied weakest dimensions in the gap label */}
+          <div className="flex items-center gap-2 mb-4">
             <SvgIcon name={roadmap.gapIcon} size={13} className="text-brand" />
             <span className="text-[11px] font-semibold tracking-widest uppercase text-brand">
-              {roadmap.gapLabel}
+              {weakestDims.length > 1
+                ? `Your Biggest Gap: ${weakestDims.map((k) => DIM_LABELS[k]).join(" & ")}`
+                : roadmap.gapLabel}
             </span>
           </div>
 
           {/* What to do next */}
-          <div className="text-[11px] font-medium tracking-wider uppercase text-gray-400 mt-3 mb-0.5">
+          <div className="text-[11px] font-medium tracking-wider uppercase text-gray-400 mb-1">
             What to do next:
           </div>
-          <div className="text-[17px] font-semibold text-gray-900">
+
+          {/* Focus title */}
+          <div className="text-[18px] font-semibold text-gray-900 leading-snug">
             {roadmap.focusTitle}
           </div>
 
           {isRaise && (
-            <div className="text-sm text-gray-500 mt-1.5">
+            <div className="text-sm text-gray-500 mt-2">
               Here's what we'll work on together:
             </div>
           )}
         </div>
 
-        {/* ── Main gap dimension label + steps ── */}
-        <div className="flex items-center gap-1.5 mb-2 text-[11px] font-semibold tracking-widest uppercase text-brand">
+        {/* ── Main gap dimension label ── */}
+        <div className="flex items-center gap-2 mb-3 text-[11px] font-semibold tracking-widest uppercase text-brand">
           <SvgIcon name={roadmap.gapIcon} size={13} className="text-brand" />
           {DIM_LABELS[weakestDim] || weakestDim}
         </div>
 
+        {/* Main gap steps */}
         {roadmap.steps.map((step) => {
           stepNumber++
           return (
             <div key={stepNumber} className="py-3 border-b border-gray-100 last:border-b-0">
-              <div className="flex items-center gap-2">
-                <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0">
+              <div className="flex items-start gap-2.5">
+                <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0 mt-0.5">
                   {stepNumber}
                 </span>
                 <span className="text-[13px] font-medium text-gray-900">{step.title}</span>
@@ -222,13 +236,13 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           stepNumber++
           return (
             <div key={dim.label}>
-              <div className="flex items-center gap-1.5 pt-5 pb-2 text-[11px] font-semibold tracking-widest uppercase text-brand">
+              <div className="flex items-center gap-2 pt-5 pb-3 text-[11px] font-semibold tracking-widest uppercase text-brand">
                 <SvgIcon name={dim.icon} size={13} className="text-brand" />
                 {dim.label}
               </div>
               <div className="py-3 border-b border-gray-100 last:border-b-0">
-                <div className="flex items-center gap-2">
-                  <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0">
+                <div className="flex items-start gap-2.5">
+                  <span className="w-[22px] h-[22px] rounded-full bg-brand-light text-brand text-[11px] font-medium flex items-center justify-center flex-shrink-0 mt-0.5">
                     {stepNumber}
                   </span>
                   <span className="text-[13px] font-medium text-gray-900">{dim.action.title}</span>
@@ -242,10 +256,10 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
         })}
 
         {/* ── CTA ── */}
-        <div className="text-center mt-6 pt-5 border-t border-gray-100">
+        <div className="text-center mt-6 pt-6 border-t border-gray-100">
           {isRaise ? (
             <>
-              <p className="text-[12px] text-gray-500 leading-relaxed mb-3 max-w-[360px] mx-auto">
+              <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[360px] mx-auto">
                 Book a call to walk through your results together. We'll discuss your specific situation and build a plan to close your round.
               </p>
               <button
@@ -258,12 +272,28 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
             </>
           ) : (
             <>
-              <div className="text-[17px] font-semibold text-gray-900 mb-2">
-                Start your personalized roadmap today and become investment-ready faster.
+              {/* Fix 1: "You're Grow ready" tag above title, only for grow plan */}
+              {isGrow && (
+                <div className="flex justify-center mb-3">
+                  <span
+                    className="inline-block text-[11px] font-semibold tracking-wider px-3 py-1 rounded-full"
+                    style={{ backgroundColor: "#f1f1f6", color: "#5b75fe" }}
+                  >
+                    You're Grow ready
+                  </span>
+                </div>
+              )}
+
+              {/* Fix 2 & 3: title split so "and become..." is always on line 2, and "ignore." never alone */}
+              <div className="text-[17px] font-semibold text-gray-900 mb-2 leading-snug max-w-[380px] mx-auto">
+                Start your personalized roadmap today{" "}
+                <span className="inline">and become investment-ready faster.</span>
               </div>
-              <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[380px] mx-auto">
-                Get the complete roadmap with proven templates, strategic frameworks, and expert guidance to build a business investors can't ignore.
+
+              <p className="text-[12px] text-gray-500 leading-relaxed mb-4 max-w-[340px] mx-auto">
+                Get the complete roadmap with proven templates, strategic frameworks, and expert guidance to build a business investors{"\u00A0"}can't{"\u00A0"}ignore.
               </p>
+
               <button
                 onClick={handleCTA}
                 className="inline-flex items-center gap-1.5 px-7 py-2.5 bg-brand text-white text-[13px] font-medium rounded-lg border-none cursor-pointer hover:bg-brand-hover transition-colors"

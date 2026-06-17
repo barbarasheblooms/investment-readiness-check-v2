@@ -7,6 +7,12 @@ interface RadarChartProps {
   color: string
 }
 
+function getScoreColor(score: number): string {
+  if (score < 36) return "#dc2626"   // red
+  if (score < 66) return "#d97706"   // amber
+  return "#16a34a"                    // green
+}
+
 export function RadarChart({ breakdown, color }: RadarChartProps) {
   const cx = 190
   const cy = 165
@@ -47,20 +53,25 @@ export function RadarChart({ breakdown, color }: RadarChartProps) {
     />
   ))
 
-  // Data polygon
-  const values = [breakdown.traction / 100, breakdown.team / 100, breakdown.prep / 100]
+  const scores = [breakdown.traction, breakdown.team, breakdown.prep]
+  const values = scores.map((s) => s / 100)
+
+  // Per-dimension score colors for dots and outline
+  const dimColors = scores.map(getScoreColor)
+
+  // Data polygon points
   const dataPoints = angles
     .map((angle, i) => `${cx + values[i] * r * Math.cos(angle)},${cy + values[i] * r * Math.sin(angle)}`)
     .join(" ")
 
-  // Data dots
+  // Colored dots per dimension
   const dataDots = angles.map((angle, i) => (
     <circle
       key={i}
       cx={cx + values[i] * r * Math.cos(angle)}
       cy={cy + values[i] * r * Math.sin(angle)}
       r="5"
-      fill={color}
+      fill={dimColors[i]}
       stroke="#fff"
       strokeWidth="2"
     />
@@ -101,20 +112,21 @@ export function RadarChart({ breakdown, color }: RadarChartProps) {
   return (
     <svg
       viewBox="0 0 380 330"
-      width="340"
-      height="295"
+      width="300"
+      height="260"
       role="img"
       aria-label="Radar chart showing scores for Traction, Team and Readiness"
       style={{ overflow: "visible" }}
     >
       {gridLines}
       {axisLines}
+      {/* Filled polygon uses a neutral fill */}
       <polygon
         points={dataPoints}
         fill={color}
-        fillOpacity="0.12"
+        fillOpacity="0.10"
         stroke={color}
-        strokeWidth="2.5"
+        strokeWidth="2"
         strokeLinejoin="round"
       />
       {dataDots}
