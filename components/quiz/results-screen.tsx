@@ -176,6 +176,14 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
           </div>
         )}
 
+        {isGrow && (
+          <div className="mb-4">
+            <span className="inline-block text-[11px] font-medium tracking-wider uppercase px-2.5 py-1 rounded-full bg-brand-light text-brand">
+              Program Grow
+            </span>
+          </div>
+        )}
+
         {/* Biggest Gap header */}
         <div className="mb-5 pb-5 border-b border-gray-100">
           <div className="flex items-center gap-2 mb-4">
