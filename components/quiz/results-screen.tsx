@@ -51,7 +51,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
   const handleCTA = () => {
     const urls: Record<string, string> = {
       grow: "https://buy.stripe.com/eVqeVd87y9ST3XFaiQ1kA01",
-      raise: "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ0ahOOMJy2vYURbWfVkZ50FQEZVTWj5mjELf8UZR2d09-6tETZjcbZkh1qq-KtAQpY6aUojMXIt",
+      raise: "https://calendar.app.google/xggHVg31RHNugTF68",
     }
     window.open(urls[roadmap.plan], "_blank")
   }
@@ -103,7 +103,7 @@ export function ResultsScreen({ result, onRetake }: ResultsScreenProps) {
                 <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
                   <div className="h-full rounded-full transition-all duration-500" style={{ width: `${dim.score}%`, backgroundColor: barColor }} />
                 </div>
-                {isWeak && (
+                {isWeak && isGrow && (
                   <span className="inline-block mt-1.5 text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-brand-light text-brand">Needs focus</span>
                 )}
               </div>
